@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Groceries List
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card class="welcome-card">
+    <ion-img src="/assets/groceries.jpg"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>Groceries</ion-card-subtitle>
+      <ion-card-title>List</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Check your purchases below.</p>
+    </ion-card-content>
+  </ion-card>
+  <h3 text-center *ngIf="items.length === 0">
+      No items available in the list.
+    </h3>
+  <ion-list>
+    <ion-item-sliding *ngFor="let item of items; let i = index">
+      <ion-item>
+        <ion-avatar item-start>
+          <img src='/assets/404.jpg'>
+        </ion-avatar>
+        <ion-content class="adjust-height">
+          <h2 class="no-margins-padding">{{item.name}}</h2>
+          <p class="no-margins-padding">{{item.quantity}}</p>
+        </ion-content>
+        <ion-label *ngIf="item.purchased" slot=end color="success">Item Purchased</ion-label>
+        <ion-label *ngIf="!item.purchased" slot=end color="danger">Still Need</ion-label>
+      </ion-item>
+      <ion-item-options side="start">
+        <ion-button *ngIf="item.purchased" color="success" (click)="toggle(item)">Own</ion-button>
+        <ion-button *ngIf="!item.purchased" color="danger" (click)="toggle(item)">Need</ion-button>
+        <ion-button [disabled]="!item.purchased" color="danger" (click)="removeItem(item._id)">
+          <ion-icon name="trash"></ion-icon>
+        </ion-button>
+        <ion-button color="primary" (click)="editItem(item, i)">Edit</ion-button>
+        <ion-button color="light" (click)="shareItem(item, i)"><ion-icon name="share"></ion-icon></ion-button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button>
+    <ion-icon name="add" (click)="addItem()"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
